@@ -1,8 +1,72 @@
 #define FFF /*number of node*/
 #define INF 233333333
 
+//字符串
+/*kmp*/
+void getnext(char *s) {
+	int len = strlen(s),j = 0,k = -1;
+	next[0] = -1;
+	while(j < len) {
+		if(k == -1 || s[j] == s[k]) {
+			j++; k++; next[j] = k;
+		}
+		else
+			k = next[k];
+	}
+}
+
+bool kmpmatch(char *s,char *ss) {
+	int i = 0,j = 0;
+	while(s[i] != '\0') {
+		if(j == -1 || ss[j] == s[i]) {
+			i++;j++;
+			if(ss[j] == '\0')
+				return true;
+		}
+		else
+			j = next[j];
+	}
+}
+
+/*trie 样例为字典树*/
+struct node {
+	node *next[26];
+};
+
+node* newnode() {
+	node *p = (node *)malloc(sizeof(node));
+	for(int i = 0;i < 26;i++)
+		p -> next[i] = NULL;
+	return p;
+}
+
+void build(char *s,node *root) {
+	node *p = root;
+	for(int i = 0; s[i] != '\0';i++) {
+		int t = s[i] - 'a';
+		if(p -> next[t] == NULL) {
+			node *q = newnode();
+			p -> next[t] = q;
+		}
+		p = p -> next[t];
+	}
+	return;
+}
+
+bool solve(char *s,node *root) {
+	node *p = root;
+	for(int i = 0;s[i] != '\0';i++) {
+		int t = s[i] - 'a';
+		if(p -> next[t] == NULL)
+			return false;
+		else
+			p = p -> next[t];
+	}
+	return true;
+}
+
 //网络流
-/*dinic*/
+/*dinic求最大流*/
 int first[FFF],dis[FFF],e;
 void init()  {
 	memset(first,-1,sizeof(first));
@@ -188,12 +252,11 @@ int main()  {
 }
 
 
-/*二分图最大权匹配最小权匹配*/
+/*km二分图最大权匹配&&最小权匹配*/
 int len[FFF][FFF]
 int sx[FFF],sy[FFF];
 int lx[FFF],ly[FFF];
-int match[FFF];
-//int match[j]//与j匹配的i
+int match[FFF]; //int match[j]//与j匹配的i
 #define MAX 999999999
 
 int bfs(int i){
