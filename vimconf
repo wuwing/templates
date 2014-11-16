@@ -1,0 +1,96 @@
+set nu ""行号
+
+""set showcmd
+
+set foldenable ""代码折叠
+set foldmethod=manual
+
+set tabstop=4 ""tab长度
+set shiftwidth=4 
+
+""自动头文件
+autocmd BufNewFile *.cpp exec ":call SetTitle()"
+func SetTitle()
+	call setline(1,"/******************************************************")
+	call append(line("."), " * File Name:   ".expand("%"))
+	call append(line(".")+1, " * Author:      kojimai")
+	call append(line(".")+2, " * Create Time: ".strftime("%c"))
+	call append(line(".")+3, "******************************************************/")
+	call append(line(".")+4, "")
+	call append(line(".")+5, "#include<cstdio>")
+	call append(line(".")+6, "#include<cstring>")
+	call append(line(".")+7, "#include<cmath>")
+	call append(line(".")+8, "#include<algorithm>")
+	call append(line(".")+9, "#include<iostream>")
+	call append(line(".")+10, "using namespace std;")
+	call append(line(".")+11, "int main()")
+	call append(line(".")+12, "{")
+	call append(line(".")+13, "	return 0;")
+	call append(line(".")+14, "}")
+	autocmd BufNewFile * normal G
+endfunc
+
+"" 全选
+map <C-A> ggVG
+map! <C-A> <Esc>ggVG
+
+nnoremap <F2> :vert diffsplit
+
+""编译
+map <F5> : call Compile()<CR>
+func! Compile()
+	exec "w"
+	if &filetype =='python'
+		exec "!python %"
+	elseif &filetype =='cpp'
+		exec "!g++ % -o a.out"
+	endif
+endfunc
+
+""运行
+map <F6> :  call Run()<CR>
+func! Run()
+	exec "! ./a.out"
+endfunc
+
+""运行 从文件读入输入
+map <F7> :  call Runin()<CR>
+func! Runin()
+	exec "! ./a.out < in.in"
+endfunc
+
+map <F4> : call Cwx()<CR>
+func! Cwx()
+	exec "w"
+	exec "! $(wx-config --cxx) % $(wx-config --libs --cxxflags) -o %<"
+endfunc
+
+set completeopt=preview,menu
+""高亮
+set syntax=on
+
+""缩进
+set cindent
+
+set enc=utf-8
+
+set showmatch
+
+""括号自动补全
+:inoremap ( ()<ESC>i
+:inoremap ) <c-r>=ClosePair(')')<CR>
+:inoremap { {<CR>}<ESC>O
+"":inoremap { {}<ESC>i
+:inoremap } <c-r>=ClosePair('}')<CR>
+:inoremap [ []<ESC>i
+:inoremap ] <c-r>=ClosePair(']')<CR>
+:inoremap " ""<ESC>i
+:inoremap ' ''<ESC>i
+function! ClosePair(char)
+    if getline('.')[col('.') - 1] == a:char
+        return "\<Right>"
+    else
+        return a:char
+    endif
+endfunction
+set encoding=utf-8 fileencodings=ucs-bom,utf-8,cp936
