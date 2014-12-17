@@ -1,4 +1,4 @@
-//  dijkstra
+//  dijkstra 单源最短路
 int dist[FFF],len[FFF][FFF]
 bool vis[FFF];
 

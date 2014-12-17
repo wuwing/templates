@@ -196,6 +196,46 @@ int MincostMaxflow(int s,int t)  {
 	return mincost;
 }
 
+//最短路
+/*dijkstra 单源最短路*/
+int dist[FFF],len[FFF][FFF]
+bool vis[FFF];
+
+int dijkstra(int s) {
+	memset(dist,-1,sizeof(dist));
+	memset(vis,false,sizeof(vis));
+	dist[s] = 0;
+	for(int i = 1;i < n;i++) {
+		int dis = INF,loc;
+		for(int j = 1;j <= n;j++) {
+			if(!vis[j] && dist[j] != -1 && dist[j] < dis) {
+				dis = dist[j];
+				loc = j;
+			}	
+		}
+		vis[loc] = true;
+		for(int j = 1;j <= n;j++) {
+			if(vis[j]) continue;
+			if(dist[j] == -1 || dist[j] > dist[loc] + len[loc][j])
+				dist[j] = dist[loc] + len[loc][j];
+		}
+	}
+	return dist[target];
+}
+
+/*floyd 两两之间的最短路*/
+void floyd() {
+	for(int k = 1;k <= n;k++) {
+		for(int i = 1;i <= n;i++) {
+			for(int j = 1;j <= n;j++) {
+				if(len[i][j] > len[i][k] + len[k][j])
+					len[i][j] = len[i][k] + len[k][j];
+			}
+		}
+	}
+}
+
+
 //图
 /*prim 最小生成树*/
 int len[FFF][FFF],dis[FFF];
@@ -424,3 +464,43 @@ bool liner_equation(int a,int b,int c,int &x,int &y) {
 	x*=k;y*=k;//求得x1,y1 x=x1+b/gcd(a,b)*t y=y1-a/gcd(a,b)*t
 	return true;
 }
+
+
+//stl
+
+/*multiset */
+multiset <type> p;
+
+p.begin(); //第一个元素的迭代器
+p.rbegin(); //指向最后一个元素的反向迭代器
+
+p.end(); //最后一个元素的迭代器
+
+p.insert(x); //添加x元素
+p.erase(); //删除某元素
+
+p.lower_bound(); //返回指向大于等于某值的第一个元素的迭代器
+
+struct type {
+	int a,b,c;
+};
+struct compare {
+	bool operator()(const type &a,const type &b)const {
+		return a.s < b.x;
+	}
+}
+multiset<type,compare> element;
+
+multiset<int> :: iterator it;
+for( it = p.begin();it != p.end();it++)
+{
+	cout<<*it<<" ";
+}
+
+/*vector*/
+vector <type> p;
+p.push_back(a);//添加一个数
+
+lower_bound(p.start(),p.end(),x); //找第一个大于等于x的值 返回的是迭代器
+lower_bound(p.start(),p.end(),x)-p.start(); //找第一个大于等于x的值 返回的是下标
+

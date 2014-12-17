@@ -26,3 +26,12 @@ for( it = p.begin();it != p.end();it++)
 {
 	cout<<*it<<" ";
 }
+
+/*vector*/
+vector <type> p;
+p.push_back(a);//添加一个数
+
+lower_bound(p.start(),p.end(),x); //找第一个大于等于x的值 返回的是迭代器
+lower_bound(p.start(),p.end(),x)-p.start(); //找第一个大于等于x的值 返回的是下标
+
+/*pir*/
