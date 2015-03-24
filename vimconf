@@ -23,10 +23,9 @@ func SetTitle()
 	call append(line(".")+8, "#include<algorithm>")
 	call append(line(".")+9, "#include<iostream>")
 	call append(line(".")+10, "using namespace std;")
-	call append(line(".")+11, "int main()")
-	call append(line(".")+12, "{")
-	call append(line(".")+13, "	return 0;")
-	call append(line(".")+14, "}")
+	call append(line(".")+11, "int main() {")
+	call append(line(".")+12, "	return 0;")
+	call append(line(".")+13, "}")
 	autocmd BufNewFile * normal G
 endfunc
 
