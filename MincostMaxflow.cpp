@@ -34,9 +34,9 @@ bool spfa(int s,int t)  {
 				if(!vis[v])  { q.push(v); vis[v]=true;}
 			}
 		}
-		vis[now] = false;
+		vis[now] = false;//处理负环时有问题需要修正
 	}
-	if(dist[v] < INF) return true;
+	if(dist[t] < INF) return true;
 	else return false;
 }
 
@@ -44,9 +44,9 @@ int MincostMaxflow(int s,int t)  {
 	int mincost = 0;
 	while(spfa(s,t))  {
 		int flow = INF;
-		for(int i = pre[t]; i != -1; i = pre[edge[i]].u)
+		for(int i = pre[t]; i != -1; i = pre[edge[i].u])
 			flow = min(flow,edge[i].f);
-		for(int i = pre[t]; i != -1; i = pre[edge[i]].u)  {
+		for(int i = pre[t]; i != -1; i = pre[edge[i].u])  {
 			edge[i].f -= flow;
 			edge[i^1].f += flow;
 		}

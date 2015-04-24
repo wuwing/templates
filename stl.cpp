@@ -34,4 +34,17 @@ p.push_back(a);//添加一个数
 lower_bound(p.start(),p.end(),x); //找第一个大于等于x的值 返回的是迭代器
 lower_bound(p.start(),p.end(),x)-p.start(); //找第一个大于等于x的值 返回的是下标
 
+/*priority_queue*/
+priority_queue<type> p;
+p.push();
+p.top();
+
+priority_queue<int,vector<int>,greater<int>> p;
+
+struct node {
+	int x,y;
+	friend bool operator < (node a,node b) {
+		return a.x < b.x;
+	}
+};
 /*pir*/
