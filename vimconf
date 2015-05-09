@@ -148,8 +148,22 @@ endfunction
 :inoremap } <c-r>=ClosePair('}')<CR>
 :inoremap [ []<ESC>i
 :inoremap ] <c-r>=ClosePair(']')<CR>
-:inoremap " ""<ESC>i
-:inoremap ' ''<ESC>i
+"":inoremap " ""<ESC>i
+"":inoremap ' ''<ESC>i
+:inoremap " <c-r>=Quato('"')<CR>
+:inoremap ' <c-r>=Quato("'")<CR>
+
+function! Quato(char)
+	if getline('.')[col('.') - 1] == a:char
+		return "\<Right>"
+	elseif a:char == '"'
+		return "\"\"\<Left>"
+	else
+		return "''\<Left>"
+	endif
+endfunction
+
+
 function! ClosePair(char)
     if getline('.')[col('.') - 1] == a:char
         return "\<Right>"
@@ -165,6 +179,10 @@ function! Back()
 	elseif getline('.')[col('.')-2] == '{' && getline('.')[col('.')-1] == '}'
 		return "\<Right>\<backspace>\<backspace>"
 	elseif getline('.')[col('.')-2] == '(' && getline('.')[col('.')-1] == ')'
+		return "\<Right>\<backspace>\<backspace>"
+	elseif getline('.')[col('.')-2] == "'" && getline('.')[col('.')-1] == "'"
+		return "\<Right>\<backspace>\<backspace>"
+	elseif getline('.')[col('.')-2] == '"' && getline('.')[col('.')-1] == '"'
 		return "\<Right>\<backspace>\<backspace>"
 	else
 		return "\<backspace>"
