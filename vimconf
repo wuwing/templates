@@ -1,4 +1,4 @@
-" All system-wide defaults are set in $VIMRUNTIME/debian.vim and sourced by
+﻿" All system-wide defaults are set in $VIMRUNTIME/debian.vim and sourced by
 " the call to :runtime you can find below.  If you wish to change any of those
 " settings, you should do it in this file (/etc/vim/vimrc), since debian.vim
 " will be overwritten everytime an upgrade of the vim packages is performed.
@@ -98,13 +98,19 @@ func! Compile()
 		exec "!python %"
 	elseif &filetype =='cpp'
 		exec "!g++ % -o a.out"
+	elseif &filetype =='cs'
+		exec "!mcs % -out:a.out"
 	endif
 endfunc
 
 ""运行
 map <F6> :  call Run()<CR>
 func! Run()
-	exec "! ./a.out"
+	if &filetype =='cpp'
+		exec "! ./a.out"
+	elseif &filetype =='cs'
+		exec "!mono a.out"
+	endif
 endfunc
 
 ""运行 从文件读入输入
@@ -189,4 +195,4 @@ function! Back()
 	endif
 endfunction
 
-set encoding=utf-8 fileencodings=ucs-bom,utf-8,cp936
+"set encoding=utf-8 fileencodings=ucs-bom,utf-8,cp936
